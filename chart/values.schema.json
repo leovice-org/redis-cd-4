@@ -1,276 +1,49 @@
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "properties": {
-    "affinity": {
-      "additionalProperties": false,
-      "title": "affinity",
-      "type": "object"
-    },
-    "autoscaling": {
-      "additionalProperties": false,
-      "properties": {
-        "enabled": {
-          "default": false,
-          "title": "enabled",
-          "type": "boolean"
-        },
-        "maxReplicas": {
-          "default": 100,
-          "title": "maxReplicas",
-          "type": "integer"
-        },
-        "minReplicas": {
-          "default": 1,
-          "title": "minReplicas",
-          "type": "integer"
-        },
-        "targetCPUUtilizationPercentage": {
-          "default": 80,
-          "title": "targetCPUUtilizationPercentage",
-          "type": "integer"
-        }
-      },
-      "required": [
-        "enabled",
-        "minReplicas",
-        "maxReplicas",
-        "targetCPUUtilizationPercentage"
-      ],
-      "title": "autoscaling",
-      "type": "object"
-    },
-    "fullnameOverride": {
-      "default": "",
-      "title": "fullnameOverride",
-      "type": "string"
-    },
-    "image": {
-      "additionalProperties": false,
-      "properties": {
-        "pullPolicy": {
-          "default": "IfNotPresent",
-          "title": "pullPolicy",
-          "type": "string"
-        },
-        "repository": {
-          "default": "redis",
-          "title": "repository",
-          "type": "string"
-        },
-        "tag": {
-          "default": "7.2.5",
-          "description": "Overrides the image tag whose default is the chart appVersion.",
-          "title": "tag",
-          "type": "string"
-        }
-      },
-      "required": [
-        "repository",
-        "pullPolicy",
-        "tag"
-      ],
-      "title": "image",
-      "type": "object"
-    },
-    "imagePullSecrets": {
-      "items": {},
-      "title": "imagePullSecrets",
-      "type": "array"
-    },
-    "ingress": {
-      "additionalProperties": false,
-      "properties": {
-        "annotations": {
-          "additionalProperties": false,
-          "title": "annotations",
-          "type": "object"
-        },
-        "className": {
-          "default": "",
-          "title": "className",
-          "type": "string"
-        },
-        "enabled": {
-          "default": false,
-          "title": "enabled",
-          "type": "boolean"
-        },
-        "hosts": {
-          "description": "kubernetes.io/ingress.class: nginx\nkubernetes.ioio/tls-acme: \"true\"",
-          "items": {
-            "anyOf": [
-              {
-                "additionalProperties": false,
-                "properties": {
-                  "host": {
-                    "default": "chart-example.local",
-                    "title": "host",
-                    "type": "string"
-                  },
-                  "paths": {
-                    "items": {
-                      "anyOf": [
-                        {
-                          "additionalProperties": false,
-                          "properties": {
-                            "path": {
-                              "default": "/",
-                              "title": "path",
-                              "type": "string"
-                            },
-                            "pathType": {
-                              "default": "ImplementationSpecific",
-                              "title": "pathType",
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "path",
-                            "pathType"
-                          ],
-                          "type": "object"
-                        }
-                      ]
-                    },
-                    "title": "paths",
-                    "type": "array"
-                  }
-                },
-                "required": [
-                  "host",
-                  "paths"
-                ],
-                "type": "object"
-              }
-            ]
-          },
-          "title": "hosts",
-          "type": "array"
-        },
-        "tls": {
-          "items": {},
-          "title": "tls",
-          "type": "array"
-        }
-      },
-      "required": [
-        "enabled",
-        "className",
-        "annotations",
-        "hosts",
-        "tls"
-      ],
-      "title": "ingress",
-      "type": "object"
-    },
-    "nameOverride": {
-      "default": "",
-      "title": "nameOverride",
-      "type": "string"
-    },
-    "nodeSelector": {
-      "additionalProperties": false,
-      "title": "nodeSelector",
-      "type": "object"
-    },
-    "podAnnotations": {
-      "additionalProperties": false,
-      "title": "podAnnotations",
-      "type": "object"
-    },
-    "podSecurityContext": {
-      "additionalProperties": false,
-      "title": "podSecurityContext",
-      "type": "object"
-    },
-    "replicaCount": {
-      "default": 1,
-      "title": "replicaCount",
-      "type": "integer"
-    },
-    "resources": {
-      "additionalProperties": false,
-      "title": "resources",
-      "type": "object"
-    },
-    "securityContext": {
-      "additionalProperties": false,
-      "title": "securityContext",
-      "type": "object"
-    },
-    "service": {
-      "additionalProperties": false,
-      "properties": {
-        "port": {
-          "default": 6379,
-          "title": "port",
-          "type": "integer"
-        },
-        "type": {
-          "default": "ClusterIP",
-          "title": "type",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "port"
-      ],
-      "title": "service",
-      "type": "object"
-    },
-    "serviceAccount": {
-      "additionalProperties": false,
-      "properties": {
-        "annotations": {
-          "additionalProperties": false,
-          "description": "Annotations to add to the service account",
-          "title": "annotations",
-          "type": "object"
-        },
-        "create": {
-          "default": true,
-          "description": "Specifies whether a service account should be created",
-          "title": "create",
-          "type": "boolean"
-        },
-        "name": {
-          "default": "",
-          "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template",
-          "title": "name",
-          "type": "string"
-        }
-      },
-      "required": [
-        "create",
-        "annotations",
-        "name"
-      ],
-      "title": "serviceAccount",
-      "type": "object"
-    },
-    "tolerations": {
-      "items": {},
-      "title": "tolerations",
-      "type": "array"
-    }
-  },
-  "required": [
-    "replicaCount",
-    "image",
-    "imagePullSecrets",
-    "nameOverride",
-    "fullnameOverride",
-    "serviceAccount",
-    "podAnnotations",
-    "podSecurityContext",
-    "securityContext",
-    "service",
-    "ingress",
-    "resources",
-    "autoscaling",
-    "nodeSelector",
+{\n  "$schema": "http://json-schema.org/draft-07/schema#",\n  "additionalProperties": false,\n  "properties": {\n    "affinity": {\n      "additionalProperties": false,\n      "title": "affinity",\n      "type": "object"\n    },\n    "autoscaling": {\n      "additionalProperties": false,\n      "properties": {\n        "enabled": {\n          "default": false,\n          "title": "enabled",\n          "type": "boolean"\n        },\n        "maxReplicas": {\n          "default": 100,\n          "title": "maxReplicas",\n          "type": "integer"\n        },\n        "minReplicas": {\n          "default": 1,\n          "title": "minReplicas",\n          "type": "integer"\n        },\n        "targetCPUUtilizationPercentage": {\n          "default": 80,\n          "title": "targetCPUUtilizationPercentage",\n          "type": "integer"\n        }\n      },\n      "required": [\n        "enabled",\n        "minReplicas",\n        "maxReplicas",\n        "targetCPUUtilizationPercentage"\n      ],\n      "title": "autoscaling",\n      "type": "object"\n    },\n    "fullnameOverride": {\n      "default": "",\n      "title": "fullnameOverride",\n      "type": "string"\n    },\n    "image": {\n      "additionalProperties": false,\n      "properties": {\n        "pullPolicy": {\n          "default": "IfNotPresent",\n          "title": "pullPolicy",\n          "type": "string"\n        },\n        "repository": {\n          "default": "redis",\n          "title": "repository",\n          "type": "string"\n        },\
+        "tag": {\n          "default": "7.2.5",\n          "description": "Overrides the image tag whose default is the chart appVersion.",\n          "title": "tag",\n          "type": "string"\n        }\n      },\n      "required": [\n        "repository",\n        "pullPolicy",\n        "tag"\n      ],\n      "title": "image",\n      "type": "object"\n    },\n    "imagePullSecrets": {\n      "items": {\n        "properties": {\n          "name": {\n            "type": "string"\n          }\n        },\
+        "type": "object"\n      },\n      "title": "imagePullSecrets",\n      "type": "array"\n    },\
+    "ingress": {\n      "additionalProperties": false,\n      "properties": {\n        "annotations": {\n          "additionalProperties": false,\n          "title": "annotations",\n          "type": "object"\n        },\
+        "className": {\n          "default": "",\n          "title": "className",\n          "type": "string"\n        },\
+        "enabled": {\n          "default": false,\n          "title": "enabled",\n          "type": "boolean"\n        },\
+        "hosts": {\n          "description": "kubernetes.io/ingress.class: nginx\\nkubernetes.ioio/tls-acme: \\"true\\"",\n          "items": {\n            "anyOf": [\n              {\n                "additionalProperties": false,\n                "properties": {\n                  "host": {\n                    "default": "chart-example.local",\n                    "title": "host",\n                    "type": "string"\n                  },\
+                  "paths": {\n                    "items": {\n                      "anyOf": [\n                        {\n                          "additionalProperties": false,\n                          "properties": {\n                            "path": {\n                              "default": "/",\n                              "title": "path",\n                              "type": "string"\n                            },\
+                            "pathType": {\n                              "default": "ImplementationSpecific",\n                              "title": "pathType",\n                              "type": "string"\n                            }\n                          },\
+                          "required": [\n                            "path",\n                            "pathType"\n                          ],\
+                          "type": "object"\n                        }\n                      ]\n                    },\
+                    "title": "paths",\n                    "type": "array"\n                  }\n                },\
+                "required": [\n                  "host",\n                  "paths"\n                ],\
+                "type": "object"\n              }\n            ]\n          },\
+          "title": "hosts",\n          "type": "array"\n        },\
+        "tls": {\n          "items": {\n            "properties": {\n              "hosts": {\n                "items": {\n                  "type": "string"\n                },\
+                "type": "array"\n              },\
+              "secretName": {\n                "type": "string"\n              }\n            },\
+            "type": "object"\n          },\
+          "title": "tls",\n          "type": "array"\n        }\n      },\
+      "required": [\n        "enabled",\n        "className",\n        "annotations",\n        "hosts",\n        "tls"\n      ],\
+      "title": "ingress",\n      "type": "object"\n    },\
+    "nameOverride": {\n      "default": "",\n      "title": "nameOverride",\n      "type": "string"\n    },\
+    "nodeSelector": {\n      "additionalProperties": false,\n      "title": "nodeSelector",\n      "type": "object"\n    },\
+    "podAnnotations": {\n      "additionalProperties": false,\n      "title": "podAnnotations",\n      "type": "object"\n    },\
+    "podSecurityContext": {\n      "additionalProperties": false,\n      "title": "podSecurityContext",\n      "type": "object"\n    },\
+    "replicaCount": {\n      "default": 1,\n      "title": "replicaCount",\n      "type": "integer"\n    },\
+    "resources": {\n      "additionalProperties": false,\n      "title": "resources",\n      "type": "object"\n    },\
+    "securityContext": {\n      "additionalProperties": false,\n      "title": "securityContext",\n      "type": "object"\n    },\
+    "service": {\n      "additionalProperties": false,\n      "properties": {\n        "port": {\n          "default": 6379,\n          "title": "port",\n          "type": "integer"\n        },\
+        "type": {\n          "default": "ClusterIP",\n          "title": "type",\n          "type": "string"\n        }\n      },\
+      "required": [\n        "type",\n        "port"\n      ],\
+      "title": "service",\n      "type": "object"\n    },\
+    "serviceAccount": {\n      "additionalProperties": false,\n      "properties": {\n        "annotations": {\n          "additionalProperties": false,\n          "description": "Annotations to add to the service account",\n          "title": "annotations",\n          "type": "object"\n        },\
+        "create": {\n          "default": true,\n          "description": "Specifies whether a service account should be created",\n          "title": "create",\n          "type": "boolean"\n        },\
+        "name": {\n          "default": "",\n          "description": "The name of the service account to use.\\nIf not set and create is true, a name is generated using the fullname template",\n          "title": "name",\n          "type": "string"\n        }\n      },\
+      "required": [\n        "create",\n        "annotations",\n        "name"\n      ],\
+      "title": "serviceAccount",\n      "type": "object"\n    },\
+    "tolerations": {\n      "items": {\n        "properties": {\n          "effect": {\n            "type": "string"\n          },\
+          "key": {\n            "type": "string"\n          },\
+          "operator": {\n            "type": "string"\n          },\
+          "tolerationSeconds": {\n            "type": "integer"\n          },\
+          "value": {\n            "type": "string"\n          }\n        },\
+        "type": "object"\n      },\
+      "title": "tolerations",\n      "type": "array"\n    }\n  },\
+  "required": [\n    "replicaCount",\n    "image",\n    "imagePullSecrets",\n    "nameOverride",\n    "fullnameOverride",\n    "serviceAccount",\n    "podAnnotations",\n    "podSecurityContext",\n    "securityContext",\n    "service",\n    "ingress",\n    "resources",\n    "autoscaling",\n    "nodeSelector",
     "tolerations",
     "affinity"
   ],
