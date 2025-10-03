@@ -1,0 +1,9 @@
+apiVersion: core.krateo.io/v1alpha1
+kind: CompositionDefinition
+metadata:
+  name: redis-cd
+  namespace: krateo-system
+spec:
+  chart:
+    url: oci://ghcr.io/leovice-org/redis-cd-4/redis-cd
+    version: "0.1.0"
